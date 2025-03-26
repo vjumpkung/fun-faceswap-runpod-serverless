@@ -10,16 +10,19 @@ ENV PYTHONUNBUFFERED=1
 # Speed up some cmake builds
 ENV CMAKE_BUILD_PARALLEL_LEVEL=8
 
-# Install Python, git and other necessary tools
-RUN apt-get update --yes && apt-get install --yes --no-install-recommends \
-  python3.10 \
-  python3-pip \
-  git \
-  wget \
-  libgl1 \
-  && ln -sf /usr/bin/python3.10 /usr/bin/python \
-  && ln -sf /usr/bin/pip3 /usr/bin/pip
+ARG PYTHON_VERSION="3.10"
 
+# Install Python, git and other necessary tools
+RUN ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
+RUN apt-get update --yes && \
+  apt-get install --yes --no-install-recommends build-essential git curl wget gcc g++ libgl1 software-properties-common&& \
+  add-apt-repository ppa:deadsnakes/ppa && \
+  apt-get update --yes && \
+  apt-get install --yes --no-install-recommends "python${PYTHON_VERSION}" "python${PYTHON_VERSION}-dev" "python${PYTHON_VERSION}-venv" "python${PYTHON_VERSION}-tk" && \
+  apt-get autoremove -y && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* && \
+  echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 # Clean up to reduce image size
 RUN apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
