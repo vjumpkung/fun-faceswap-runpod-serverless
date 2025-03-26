@@ -1,9 +1,9 @@
 variable "DOCKERHUB_REPO" {
-  default = "faceswap-booth-comfy-runpod-serverless"
+  default = "vjump21848"
 }
 
 variable "DOCKERHUB_IMG" {
-  default = "faceswap-booth"
+  default = "faceswap-booth-comfy-runpod-serverless"
 }
 
 variable "RELEASE_VERSION" {
