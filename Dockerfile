@@ -15,7 +15,7 @@ ARG PYTHON_VERSION="3.10"
 # Install Python, git and other necessary tools
 RUN ln -snf /usr/share/zoneinfo/$CONTAINER_TIMEZONE /etc/localtime && echo $CONTAINER_TIMEZONE > /etc/timezone
 RUN apt-get update --yes && \
-  apt-get install --yes --no-install-recommends build-essential git curl wget gcc g++ libgl1 software-properties-common&& \
+  apt-get install --yes --no-install-recommends build-essential git curl wget gcc g++ libgl1 software-properties-common unzip && \
   add-apt-repository ppa:deadsnakes/ppa && \
   apt-get update --yes && \
   apt-get install --yes --no-install-recommends "python${PYTHON_VERSION}" "python${PYTHON_VERSION}-dev" "python${PYTHON_VERSION}-venv" "python${PYTHON_VERSION}-tk" && \
