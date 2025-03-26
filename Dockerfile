@@ -45,6 +45,11 @@ WORKDIR /
 ADD src/start.sh src/restore_snapshot.sh src/rp_handler.py test_input.json ./
 RUN chmod +x /start.sh /restore_snapshot.sh
 
+# Download Reactor Custom Node and Models 
+RUN cd ./custom_nodes && git clone https://github.com/Gourieff/ComfyUI-ReActor.git && cd ComfyUI-ReActor && python install.py && cd /comfyui
+RUN cd ./custom_nodes && git clone https://github.com/za-wa-n-go/ComfyUI_Zwng_Nodes.git && cd /comfyui
+RUN pip cache purge
+
 # Optionally copy the snapshot file
 ADD *snapshot*.json /
 
@@ -66,10 +71,6 @@ WORKDIR /comfyui
 # Create necessary directories
 RUN mkdir -p models/checkpoints models/vae models/facedetection models/facerestore_models models/facexlib models/insightface models/onnx models/reswapper
 
-# Download Reactor Custom Node and Models 
-RUN cd ./custom_nodes && git clone https://github.com/Gourieff/ComfyUI-ReActor.git && cd ComfyUI-ReActor && python install.py && cd /comfyui
-RUN cd ./custom_nodes && git clone https://github.com/za-wa-n-go/ComfyUI_Zwng_Nodes.git && cd /comfyui
-RUN pip cache purge
 RUN wget -q -O models/facerestore_models/GFPGANv1.3.pth https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/GFPGANv1.3.pth && \
   wget -q -O models/facerestore_models/GFPGANv1.4.pth https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/GFPGANv1.4.pth && \
   wget -q -O models/facerestore_models/codeformer-v0.1.0.pth https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/codeformer-v0.1.0.pth && \
