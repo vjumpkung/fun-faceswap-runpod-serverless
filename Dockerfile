@@ -1,5 +1,5 @@
 # Stage 1: Base image with common dependencies
-FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu20.04 as base
+FROM nvidia/cuda:12.4.1-base-ubuntu22.04 as base
 
 # Prevents prompts from packages asking for user input during installation
 ENV DEBIAN_FRONTEND=noninteractive
@@ -11,7 +11,7 @@ ENV PYTHONUNBUFFERED=1
 ENV CMAKE_BUILD_PARALLEL_LEVEL=8
 
 # Install Python, git and other necessary tools
-RUN apt-get update && apt-get install -y \
+RUN apt-get update --yes && apt-get install --yes --no-install-recommends \
   python3.10 \
   python3-pip \
   git \
