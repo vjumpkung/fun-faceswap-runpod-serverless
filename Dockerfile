@@ -46,8 +46,8 @@ ADD src/start.sh src/restore_snapshot.sh src/rp_handler.py test_input.json ./
 RUN chmod +x /start.sh /restore_snapshot.sh
 
 # Download Reactor Custom Node and Models 
-RUN cd ./custom_nodes && git clone https://github.com/Gourieff/ComfyUI-ReActor.git && cd ComfyUI-ReActor && python install.py && cd /comfyui
-RUN cd ./custom_nodes && git clone https://github.com/za-wa-n-go/ComfyUI_Zwng_Nodes.git && cd /comfyui
+RUN cd /comfyui/custom_nodes && git clone https://github.com/Gourieff/ComfyUI-ReActor.git && cd ComfyUI-ReActor && python install.py && cd /comfyui
+RUN cd /comfyui/custom_nodes && git clone https://github.com/za-wa-n-go/ComfyUI_Zwng_Nodes.git && cd /comfyui
 RUN pip cache purge
 
 # Optionally copy the snapshot file
