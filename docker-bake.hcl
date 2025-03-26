@@ -1,9 +1,9 @@
 variable "DOCKERHUB_REPO" {
-  default = "timpietruskyblibla"
+  default = "faceswap-booth-comfy-runpod-serverless"
 }
 
 variable "DOCKERHUB_IMG" {
-  default = "runpod-worker-comfy"
+  default = "faceswap-booth"
 }
 
 variable "RELEASE_VERSION" {
