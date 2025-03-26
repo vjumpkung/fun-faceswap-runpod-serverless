@@ -1,5 +1,5 @@
 # Stage 1: Base image with common dependencies
-FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04 as base
+FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu20.04 as base
 
 # Prevents prompts from packages asking for user input during installation
 ENV DEBIAN_FRONTEND=noninteractive
@@ -88,17 +88,18 @@ RUN mkdir -p models/checkpoints models/vae models/facedetection models/faceresto
 # Download Reactor Custom Node and Models 
 RUN cd ./custom_nodes && git clone https://github.com/Gourieff/ComfyUI-ReActor.git && cd ComfyUI-ReActor && python install.py && cd /comfyui
 RUN cd ./custom_nodes && git clone https://github.com/za-wa-n-go/ComfyUI_Zwng_Nodes.git && cd /comfyui
-RUN wget -O models/facerestore_models/GFPGANv1.3.pth https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/GFPGANv1.3.pth && \
-  wget -O models/facerestore_models/GFPGANv1.4.pth https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/GFPGANv1.4.pth && \
-  wget -O models/facerestore_models/codeformer-v0.1.0.pth https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/codeformer-v0.1.0.pth && \
-  wget -O models/facerestore_models/GPEN-BFR-512.onnx https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/GPEN-BFR-512.onnx && \
-  wget -O models/insightface/inswapper_128.onnx https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/inswapper_128.onnx && \
-  wget -O models/reswapper/reswapper_256.onnx https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/reswapper_256.onnx && \
-  wget -O models/facedetection/detection_Resnet50_Final.pth https://huggingface.co/darkeril/collection/resolve/main/detection_Resnet50_Final.pth && \
-  wget -O models/facexlib/detection_Resnet50_Final.pth https://huggingface.co/darkeril/collection/resolve/main/detection_Resnet50_Final.pth && \
-  wget -O models/facexlib/parsing_bisenet.pth https://huggingface.co/caocaocoa/1111/resolve/4f49a96a8919398af6e6373ed7dd6e323fefcdb8/parsing_bisenet.pth && \
-  wget -O models/facedetection/parsing_parsenet.pth https://huggingface.co/gmk123/GFPGAN/resolve/main/parsing_parsenet.pth && \
-  wget -O models/facedetection/yolov5l-face.pth https://huggingface.co/martintomov/comfy/resolve/main/facedetection/yolov5l-face.pth
+RUN pip cache purge
+RUN wget -q -O models/facerestore_models/GFPGANv1.3.pth https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/GFPGANv1.3.pth && \
+  wget -q -O models/facerestore_models/GFPGANv1.4.pth https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/GFPGANv1.4.pth && \
+  wget -q -O models/facerestore_models/codeformer-v0.1.0.pth https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/codeformer-v0.1.0.pth && \
+  wget -q -O models/facerestore_models/GPEN-BFR-512.onnx https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/GPEN-BFR-512.onnx && \
+  wget -q -O models/insightface/inswapper_128.onnx https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/inswapper_128.onnx && \
+  wget -q -O models/reswapper/reswapper_256.onnx https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/reswapper_256.onnx && \
+  wget -q -O models/facedetection/detection_Resnet50_Final.pth https://huggingface.co/darkeril/collection/resolve/main/detection_Resnet50_Final.pth && \
+  wget -q -O models/facexlib/detection_Resnet50_Final.pth https://huggingface.co/darkeril/collection/resolve/main/detection_Resnet50_Final.pth && \
+  wget -q -O models/facexlib/parsing_bisenet.pth https://huggingface.co/caocaocoa/1111/resolve/4f49a96a8919398af6e6373ed7dd6e323fefcdb8/parsing_bisenet.pth && \
+  wget -q -O models/facedetection/parsing_parsenet.pth https://huggingface.co/gmk123/GFPGAN/resolve/main/parsing_parsenet.pth && \
+  wget -q -O models/facedetection/yolov5l-face.pth https://huggingface.co/martintomov/comfy/resolve/main/facedetection/yolov5l-face.pth
 
 # Stage 3: Final image
 FROM base as final
