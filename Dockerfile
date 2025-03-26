@@ -18,7 +18,7 @@ RUN apt-get update --yes && \
   apt-get install --yes --no-install-recommends build-essential git curl wget gcc g++ libgl1 software-properties-common&& \
   add-apt-repository ppa:deadsnakes/ppa && \
   apt-get update --yes && \
-  apt-get install --yes --no-install-recommends "python${PYTHON_VERSION}" "python${PYTHON_VERSION}-dev" "python${PYTHON_VERSION}-venv" "python${PYTHON_VERSION}-tk" && \
+  apt-get install --yes --no-install-recommends "python${PYTHON_VERSION}" "python${PYTHON_VERSION}-dev" "python${PYTHON_VERSION}-venv" "python${PYTHON_VERSION}-tk" "python${PYTHON_VERSION}-pip" && \
   apt-get autoremove -y && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
