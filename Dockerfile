@@ -64,7 +64,7 @@ ARG MODEL_TYPE
 WORKDIR /comfyui
 
 # Create necessary directories
-RUN mkdir -p models/checkpoints models/vae models/facedetection models/facerestore_models models/facexlib models/insightface models/onnx
+RUN mkdir -p models/checkpoints models/vae models/facedetection models/facerestore_models models/facexlib models/insightface models/onnx models/reswapper
 
 # Download checkpoints/vae/LoRA to include in image based on model type
 RUN if [ "$MODEL_TYPE" = "sdxl" ]; then \
@@ -95,6 +95,8 @@ RUN wget -O models/facerestore_models/GFPGANv1.3.pth https://huggingface.co/data
   wget -O models/insightface/inswapper_128.onnx https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/inswapper_128.onnx && \
   wget -O models/reswapper/reswapper_256.onnx https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/reswapper_256.onnx && \
   wget -O models/facedetection/detection_Resnet50_Final.pth https://huggingface.co/darkeril/collection/resolve/main/detection_Resnet50_Final.pth && \
+  wget -O models/facexlib/detection_Resnet50_Final.pth https://huggingface.co/darkeril/collection/resolve/main/detection_Resnet50_Final.pth && \
+  wget -O models/facexlib/parsing_bisenet.pth https://huggingface.co/caocaocoa/1111/resolve/4f49a96a8919398af6e6373ed7dd6e323fefcdb8/parsing_bisenet.pth && \
   wget -O models/facedetection/parsing_parsenet.pth https://huggingface.co/gmk123/GFPGAN/resolve/main/parsing_parsenet.pth && \
   wget -O models/facedetection/yolov5l-face.pth https://huggingface.co/martintomov/comfy/resolve/main/facedetection/yolov5l-face.pth
 
