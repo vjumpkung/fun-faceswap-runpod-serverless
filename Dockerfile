@@ -50,6 +50,11 @@ RUN pip install runpod requests
 # Support for the network volume
 ADD src/extra_model_paths.yaml ./
 
+# copy config.ini
+RUN mkdir -p user/default/ComfyUI-Manager
+
+COPY src/config.ini user/default/ComfyUI-Manager/
+
 # Go back to the root
 WORKDIR /
 
@@ -81,7 +86,15 @@ ARG MODEL_TYPE
 WORKDIR /comfyui
 
 # Create necessary directories
-RUN mkdir -p models/checkpoints models/vae models/facedetection models/facerestore_models models/facexlib models/insightface models/onnx models/reswapper models/nsfw_detector/vit-base-nsfw-detector
+RUN mkdir -p models/checkpoints \ 
+  models/vae models/facedetection \ 
+  models/facerestore_models \ 
+  models/facexlib \
+  models/insightface \
+  models/onnx \
+  models/reswapper \
+  models/nsfw_detector/vit-base-nsfw-detector \
+  models/insightface/models/buffalo_l
 
 RUN wget -q -O models/facerestore_models/GFPGANv1.3.pth https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/GFPGANv1.3.pth && \
   wget -q -O models/facerestore_models/GFPGANv1.4.pth https://huggingface.co/datasets/Gourieff/ReActor/resolve/main/models/facerestore_models/GFPGANv1.4.pth && \
@@ -98,9 +111,11 @@ RUN wget -q -O models/facerestore_models/GFPGANv1.3.pth https://huggingface.co/d
   wget -q -O models/nsfw_detector/vit-base-nsfw-detector/confusion_matrix.png https://huggingface.co/AdamCodd/vit-base-nsfw-detector/resolve/main/confusion_matrix.png && \
   wget -q -O models/nsfw_detector/vit-base-nsfw-detector/model.safetensors https://huggingface.co/AdamCodd/vit-base-nsfw-detector/resolve/main/model.safetensors && \
   wget -q -O models/nsfw_detector/vit-base-nsfw-detector/preprocessor_config.json https://huggingface.co/AdamCodd/vit-base-nsfw-detector/resolve/main/preprocessor_config.json && \
-  wget -q -O models/insightface/buffalo_l.zip https://github.com/deepinsight/insightface/releases/download/v0.7/buffalo_l.zip && \
-  unzip -q models/insightface/buffalo_l.zip -d models/insightface && \ 
-  rm models/insightface/buffalo_l.zip
+  wget -q -O models/insightface/models/buffalo_l/1k3d68.onnx https://huggingface.co/vjump21848/buffalo_l_unzip/resolve/main/1k3d68.onnx && \
+  wget -q -O models/insightface/models/buffalo_l/2d106det.onnx https://huggingface.co/vjump21848/buffalo_l_unzip/resolve/main/2d106det.onnx && \
+  wget -q -O models/insightface/models/buffalo_l/det_10g.onnx https://huggingface.co/vjump21848/buffalo_l_unzip/resolve/main/det_10g.onnx && \
+  wget -q -O models/insightface/models/buffalo_l/genderage.onnx https://huggingface.co/vjump21848/buffalo_l_unzip/resolve/main/genderage.onnx && \
+  wget -q -O models/insightface/models/buffalo_l/w600k_r50.onnx https://huggingface.co/vjump21848/buffalo_l_unzip/resolve/main/w600k_r50.onnx
 
 # Stage 3: Final image
 FROM base as final
